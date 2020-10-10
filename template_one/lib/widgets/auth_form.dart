@@ -23,84 +23,149 @@ class _AuthFormState extends State<AuthForm> {
     }
   }
 
+  Widget _divider() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Row(
+        children: <Widget>[
+          SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Divider(
+                thickness: 1,
+              ),
+            ),
+          ),
+          Text('ou'),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Divider(
+                thickness: 1,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _signInButton() {
+    return OutlineButton(
+      splashColor: Colors.grey,
+      onPressed: () {},
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      highlightElevation: 0,
+      borderSide: BorderSide(color: Colors.grey),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image(
+                image: AssetImage("assets/images/google_logo.png"),
+                height: 35.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                'Logar com o Google',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Card(
         margin: EdgeInsets.all(20),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(16),
-            child: Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    if (_authData.isSignup)
-                      TextFormField(
-                        key: ValueKey('name'),
-                        decoration: InputDecoration(
-                          labelText: 'Nome',
-                        ),
-                        initialValue: _authData.name,
-                        onChanged: (value) => _authData.name = value,
-                        validator: (value) {
-                          if (value == null || value.trim().length < 4) {
-                            return 'Nome deve ter no mínimo 4 caracteres';
-                          }
-                          return null;
-                        },
-                      ),
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  if (_authData.isSignup)
                     TextFormField(
-                      key: ValueKey('email'),
+                      key: ValueKey('name'),
                       decoration: InputDecoration(
-                        labelText: 'E-mail',
+                        labelText: 'Nome',
                       ),
-                      onChanged: (value) => _authData.email = value,
+                      initialValue: _authData.name,
+                      onChanged: (value) => _authData.name = value,
                       validator: (value) {
-                        //aplicar regex para melhorar
-                        if (value == null || !value.contains('@')) {
-                          return 'Forneça um e-mail válido';
+                        if (value == null || value.trim().length < 4) {
+                          return 'Nome deve ter no mínimo 4 caracteres';
                         }
                         return null;
                       },
                     ),
-                    TextFormField(
-                      key: ValueKey('password'),
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: 'Senha',
-                      ),
-                      onChanged: (value) => _authData.password = value,
-                      validator: (value) {
-                        if (value == null || value.trim().length < 7) {
-                          return 'Senha deve ter no mínimo 7 caracteres';
-                        }
-                        return null;
-                      },
+                  TextFormField(
+                    key: ValueKey('email'),
+                    decoration: InputDecoration(
+                      labelText: 'E-mail',
                     ),
-                    SizedBox(
-                      height: 12,
+                    onChanged: (value) => _authData.email = value,
+                    validator: (value) {
+                      //aplicar regex para melhorar
+                      if (value == null || !value.contains('@')) {
+                        return 'Forneça um e-mail válido';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    key: ValueKey('password'),
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Senha',
                     ),
-                    RaisedButton(
-                      child: Text(_authData.isLogin ? 'Entrar' : 'Cadastrar'),
-                      onPressed: _submit,
+                    onChanged: (value) => _authData.password = value,
+                    validator: (value) {
+                      if (value == null || value.trim().length < 7) {
+                        return 'Senha deve ter no mínimo 7 caracteres';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  RaisedButton(
+                    child: Text(_authData.isLogin ? 'Entrar' : 'Cadastrar'),
+                    onPressed: _submit,
+                  ),
+                  if (_authData.isLogin) _divider(),
+                  if (_authData.isLogin) _signInButton(),
+                  FlatButton(
+                    textColor: Theme.of(context).primaryColor,
+                    child: Text(
+                      _authData.isLogin
+                          ? 'Criar uma nova conta ?'
+                          : 'Já possui uma conta ?',
                     ),
-                    FlatButton(
-                      textColor: Theme.of(context).primaryColor,
-                      child: Text(
-                        _authData.isLogin
-                            ? 'Criar uma nova conta ?'
-                            : 'Já possui uma conta ?',
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _authData.toggleMode();
-                        });
-                      },
-                    )
-                  ],
-                )),
-          ),
+                    onPressed: () {
+                      setState(() {
+                        _authData.toggleMode();
+                      });
+                    },
+                  )
+                ],
+              )),
         ),
       ),
     );

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:template_one/models/auth_data.dart';
 import 'package:template_one/widgets/auth_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:template_one/widgets/green_clipper.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -66,29 +66,55 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Theme.of(context).primaryColor,
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                AuthForm(_handleSubmit),
-                if (_isLoading)
-                  Positioned.fill(
-                    child: Container(
-                      margin: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(0, 0, 0, 0.5),
-                      ),
-                      child: Center(
-                        child: CircularProgressIndicator(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    color: Colors.white,
+                    child: ClipPath(
+                      clipper: GreenClipper(),
+                      child: Container(
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
-                  )
-              ],
-            ),
-          ],
+                  ),
+                  Container(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.25,
+                        ),
+                        new Image.asset(
+                          "assets/images/logo.png",
+                          height: 150.0,
+                          width: 210.0,
+                          fit: BoxFit.scaleDown,
+                        ),
+                        AuthForm(_handleSubmit),
+                      ],
+                    ),
+                  ),
+                  if (_isLoading)
+                    Positioned.fill(
+                      child: Container(
+                        margin: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(0, 0, 0, 0.5),
+                        ),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                    )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
