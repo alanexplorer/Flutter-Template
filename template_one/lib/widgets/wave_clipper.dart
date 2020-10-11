@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
-class GreenClipper extends CustomClipper<Path> {
+class WaveClipper extends CustomClipper<Path> {
   @override
   getClip(Size size) {
-    // TODO: implement getClip
     var path = new Path();
-    path.lineTo(0, size.height / 4.25);
+    path.lineTo(0, size.height / 4);
     var firstControlPoint = new Offset(size.width / 4, size.height / 3);
     var firstEndPoint = new Offset(size.width / 2, size.height / 3 - 60);
     var secondControlPoint =

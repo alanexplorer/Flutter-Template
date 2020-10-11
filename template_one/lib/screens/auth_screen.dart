@@ -4,7 +4,7 @@ import 'package:template_one/models/auth_data.dart';
 import 'package:template_one/widgets/auth_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:template_one/widgets/green_clipper.dart';
+import 'package:template_one/widgets/wave_clipper.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -65,56 +65,38 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       key: _scaffoldKey,
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  Container(
-                    height: MediaQuery.of(context).size.height,
-                    color: Colors.white,
-                    child: ClipPath(
-                      clipper: GreenClipper(),
-                      child: Container(
-                        color: Theme.of(context).primaryColor,
-                      ),
+      body: Container(
+        child: Stack(
+          children: <Widget>[
+            Center(
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.2,
                     ),
-                  ),
-                  Container(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.25,
-                        ),
-                        new Image.asset(
-                          "assets/images/logo.png",
-                          height: 150.0,
-                          width: 210.0,
-                          fit: BoxFit.scaleDown,
-                        ),
-                        AuthForm(_handleSubmit),
-                      ],
-                    ),
-                  ),
-                  if (_isLoading)
-                    Positioned.fill(
-                      child: Container(
-                        margin: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(0, 0, 0, 0.5),
-                        ),
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-                    )
-                ],
+                    AuthForm(_handleSubmit),
+                  ],
+                ),
               ),
-            ],
-          ),
+            ),
+            ClipPath(
+              clipper: WaveClipper(),
+              child: Container(
+                color: Colors.lightBlue,
+              ),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: Text('Seu Logo Aqui'),
+              ),
+            )
+          ],
         ),
       ),
     );
