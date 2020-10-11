@@ -70,19 +70,6 @@ class _AuthScreenState extends State<AuthScreen> {
       body: Container(
         child: Stack(
           children: <Widget>[
-            Center(
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.2,
-                    ),
-                    AuthForm(_handleSubmit),
-                  ],
-                ),
-              ),
-            ),
             ClipPath(
               clipper: WaveClipper(),
               child: Container(
@@ -93,9 +80,37 @@ class _AuthScreenState extends State<AuthScreen> {
               height: MediaQuery.of(context).size.height * 0.3,
               width: MediaQuery.of(context).size.width,
               child: Center(
-                child: Text('Seu Logo Aqui'),
+                child: new Image.asset(
+                  "assets/images/logo.png",
+                  height: 250.0,
+                  width: 250.0,
+                  fit: BoxFit.scaleDown,
+                ),
               ),
-            )
+            ),
+            Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  child: Stack(
+                    children: <Widget>[
+                      AuthForm(_handleSubmit),
+                      if (_isLoading)
+                        Positioned.fill(
+                          child: Container(
+                            margin: EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(0, 0, 0, 0.4),
+                            ),
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

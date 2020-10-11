@@ -3,7 +3,6 @@ import 'package:template_one/screens/auth_screen.dart';
 import 'package:template_one/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:template_one/screens/test_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

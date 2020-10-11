@@ -90,83 +90,82 @@ class _AuthFormState extends State<AuthForm> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Card(
-        margin: EdgeInsets.all(20),
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  if (_authData.isSignup)
-                    TextFormField(
-                      key: ValueKey('name'),
-                      decoration: InputDecoration(
-                        labelText: 'Nome',
-                      ),
-                      initialValue: _authData.name,
-                      onChanged: (value) => _authData.name = value,
-                      validator: (value) {
-                        if (value == null || value.trim().length < 4) {
-                          return 'Nome deve ter no mínimo 4 caracteres';
-                        }
-                        return null;
-                      },
-                    ),
+    return Card(
+      margin: EdgeInsets.all(20),
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                if (_authData.isSignup)
                   TextFormField(
-                    key: ValueKey('email'),
+                    key: ValueKey('name'),
                     decoration: InputDecoration(
-                      labelText: 'E-mail',
+                      labelText: 'Nome',
                     ),
-                    onChanged: (value) => _authData.email = value,
+                    initialValue: _authData.name,
+                    onChanged: (value) => _authData.name = value,
                     validator: (value) {
-                      //aplicar regex para melhorar
-                      if (value == null || !value.contains('@')) {
-                        return 'Forneça um e-mail válido';
+                      if (value == null || value.trim().length < 4) {
+                        return 'Nome deve ter no mínimo 4 caracteres';
                       }
                       return null;
                     },
                   ),
-                  TextFormField(
-                    key: ValueKey('password'),
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'Senha',
-                    ),
-                    onChanged: (value) => _authData.password = value,
-                    validator: (value) {
-                      if (value == null || value.trim().length < 7) {
-                        return 'Senha deve ter no mínimo 7 caracteres';
-                      }
-                      return null;
-                    },
+                TextFormField(
+                  key: ValueKey('email'),
+                  decoration: InputDecoration(
+                    labelText: 'E-mail',
                   ),
-                  SizedBox(
-                    height: 12,
+                  onChanged: (value) => _authData.email = value,
+                  validator: (value) {
+                    //aplicar regex para melhorar
+                    if (value == null || !value.contains('@')) {
+                      return 'Forneça um e-mail válido';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  key: ValueKey('password'),
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Senha',
                   ),
-                  RaisedButton(
-                    child: Text(_authData.isLogin ? 'Entrar' : 'Cadastrar'),
-                    onPressed: _submit,
+                  onChanged: (value) => _authData.password = value,
+                  validator: (value) {
+                    if (value == null || value.trim().length < 7) {
+                      return 'Senha deve ter no mínimo 7 caracteres';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                RaisedButton(
+                  child: Text(_authData.isLogin ? 'Entrar' : 'Cadastrar'),
+                  onPressed: _submit,
+                ),
+                if (_authData.isLogin) _divider(),
+                if (_authData.isLogin) _signInButton(),
+                FlatButton(
+                  textColor: Theme.of(context).primaryColor,
+                  child: Text(
+                    _authData.isLogin
+                        ? 'Criar uma nova conta ?'
+                        : 'Já possui uma conta ?',
                   ),
-                  if (_authData.isLogin) _divider(),
-                  if (_authData.isLogin) _signInButton(),
-                  FlatButton(
-                    textColor: Theme.of(context).primaryColor,
-                    child: Text(
-                      _authData.isLogin
-                          ? 'Criar uma nova conta ?'
-                          : 'Já possui uma conta ?',
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _authData.toggleMode();
-                      });
-                    },
-                  )
-                ],
-              )),
-        ),
+                  onPressed: () {
+                    setState(() {
+                      _authData.toggleMode();
+                    });
+                  },
+                )
+              ],
+            )),
       ),
     );
   }
